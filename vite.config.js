@@ -11,8 +11,9 @@ export default defineConfig({
   alias:{
     '@':path.resolve(__dirname,'src'),
     'common':path.resolve(__dirname,'src/common'),
-    'comps':path.resolve(__dirname,'src/components'),
+    'components':path.resolve(__dirname,'src/components'),
     'views':path.resolve(__dirname,'src/views'),
+    'plugins':path.resolve(__dirname,'src/plugins'),
   }, // 别名
   server: {
     open: true,

@@ -1,0 +1,36 @@
+html,body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  width: 100%;
+}
+
+@media screen and (min-width: 691px) {
+  #app {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+  }
+ .home {
+   width: 680px;
+   box-shadow: 0px 5px 22px 0px rgb(165 167 167 / 34%);
+ }
+  .header {
+    height: 64px;
+  }
+}
+// 响应布局h5
+@media screen and (max-width: 690px) {
+  .home {
+    width: 100%;
+  }
+}
