@@ -10,5 +10,7 @@ import './styles/index.scss'
 // import element3 from "plugins/element3";
 import elementPlus from "plugins/elementPlus";
 
+import svgIcon from './components/svgIcon.vue'
 
-createApp(App).use(elementPlus).use(router).use(store).mount('#app');
+
+createApp(App).component('svg-icon', svgIcon).use(elementPlus).use(router).use(store).mount('#app');
