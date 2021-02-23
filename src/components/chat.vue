@@ -47,14 +47,16 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted, reactive, ref } from "vue";
+import { defineProps, onMounted, reactive, ref, useContext, watch } from "vue";
 import { dateFormat } from 'common/util';
 import WebsocketHeartbeatJs from "websocket-heartbeat-js";
+
+const ctx = useContext();
 
 const props = defineProps({
   userInfo: {
     type: Object,
-    default(){
+    default() {
       return {
         phone: '',
         name: '',
@@ -72,8 +74,12 @@ const chatInfo = reactive({
   serviceInfo: {}, // 客服信息
   charLog: [],  // 聊天记录
   random: '', // 10位随机值
-  isConnect: false, // 连接客服是否成功
+  isConnect: null, // 连接客服是否成功
   isServiceMsg: false,  // 已显示客服回复的默认信息
+})
+
+watch(()=>chatInfo.isConnect,()=>{
+  ctx.emit('getChatInfo', chatInfo.isConnect)
 })
 
 function getId() {
@@ -125,7 +131,7 @@ function websocketHandle() {
         })
         
       } else {
-        chatInfo.isShowChar = false
+        chatInfo.isConnect = false
         chatInfo.serviceInfo = {}
       }
       return
@@ -160,10 +166,10 @@ function websocketHandle() {
     // 心跳更新客服列表
     if (obj.code === 3) {
       if (obj.data.online_service && obj.data.online_service.length > 0) {
-        chatInfo.isShowChar = true
+        chatInfo.isConnect = true
         chatInfo.serviceInfo = obj.data.online_service[0]
       } else {
-        chatInfo.isShowChar = false
+        chatInfo.isConnect = false
         chatInfo.serviceInfo = {}
       }
     }
@@ -172,9 +178,11 @@ function websocketHandle() {
 
 
 const fileInput = ref(null);
+
 function clickUpload() {
   fileInput.click()
 }
+
 // 发送图片
 function fileChange() {
   const file = fileInput.files[0]
@@ -243,10 +251,12 @@ function socketSend(text, image) {
     }
   }))
 }
+
 // 发送聊天消息
 function sendMsg() {
   socketSend()
 }
+
 onMounted(() => {
   chatInfo.random = localStorage.getItem('random') ? localStorage.getItem('random') : Math.random().toString().substr(2, 10)
   localStorage.setItem('random', chatInfo.random)
